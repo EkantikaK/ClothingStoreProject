@@ -1,3 +1,5 @@
+package java;
+
 public class ClothingItem {
 
     private String id;
