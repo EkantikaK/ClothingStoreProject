@@ -1,0 +1,21 @@
+/* Gives the main background a crisp, clean white */
+.premium-background {
+    -fx-background-color: #FFFFFF;
+}
+
+/* Styles a button to look like a high-end fashion site (black box, white text) */
+.premium-button {
+    -fx-background-color: #000000;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: "SansSerif";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 24px;
+    -fx-cursor: hand;
+    -fx-background-radius: 0; /* Removes default curved edges for a sharper look */
+}
+
+/* Adds a hover effect so the button turns dark gray when the mouse is over it */
+.premium-button:hover {
+    -fx-background-color: #333333;
+}
