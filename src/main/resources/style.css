@@ -1,6 +1,20 @@
 /* =========================================
-   1. GLOBAL RESET & TYPOGRAPHY
+   1. CUSTOM FONTS & GLOBAL RESET
    ========================================= */
+@font-face {
+    font-family: 'Druk';
+    /* Make sure this file name matches your Druk file! */
+    src: url('Druk-Condensed.ttf') format('truetype');
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: 'Monument Extended';
+    /* Make sure this file name matches your Monument Extended file! */
+    src: url('MonumentExtended-Black.ttf') format('truetype');
+    font-weight: 900;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +23,6 @@
 
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    /* We keep the body transparent so the fixed video can be seen underneath */
     background-color: transparent;
     color: #111111;
 }
@@ -24,7 +37,7 @@ body {
     width: 100vw;
     height: 100vh;
     object-fit: cover;
-    z-index: -1; /* Pushes the video strictly to the background */
+    z-index: -1;
 }
 
 /* =========================================
@@ -39,14 +52,21 @@ body {
     align-items: center;
     padding: 20px 50px;
     background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px); /* Gives it a frosted glass look */
+    backdrop-filter: blur(10px);
     z-index: 100;
 }
 
 .logo {
-    font-size: 24px;
+    font-family: 'Monument Extended', sans-serif; /* APPLIED MONUMENT EXTENDED HERE */
+    font-size: 26px; /* Slightly smaller because Monument is extremely wide */
     font-weight: 900;
     letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
 }
 
 .nav-links a {
@@ -62,67 +82,97 @@ body {
    4. SCROLL-JACKING & VIDEO TEXT MASK
    ========================================= */
 .hero-section {
-    height: 100vh; /* Pushes the first category down so you see the full video first */
+    height: 100vh;
 }
 
 .category-section {
     position: relative;
-    padding-bottom: 100px;
+    padding-bottom: 40px;
 }
 
-/* THE MAGIC TRICK: Video Masking */
+/* THE MAGIC TRICK: Video Masking with DRUK */
 .masked-text {
-    font-size: 18vw; /* Makes the text massive, scaling with screen width */
+    font-family: 'Druk', 'Anton', sans-serif;
+    font-size: 18vw;
     font-weight: 900;
     text-align: center;
+    text-transform: uppercase;
     line-height: 1;
     margin: 0;
-    padding: 100px 0;
+    padding: 20px 0;
 
-    /* These three lines create the cutout effect */
     background-color: #FFFFFF;
     color: #000000;
     mix-blend-mode: screen;
 }
 
 /* =========================================
-   5. THE PRODUCT CAROUSEL (Horizontal Scroll)
+   5. THE PRODUCT CAROUSEL & ARROWS
    ========================================= */
+.carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 50px;
+    background-color: #FFFFFF;
+}
+
+.carousel-arrow {
+    background: none;
+    border: none;
+    font-size: 40px;
+    color: #CCCCCC;
+    cursor: pointer;
+    padding: 0 10px;
+    transition: color 0.3s ease;
+    z-index: 10;
+}
+
+.carousel-arrow:hover {
+    color: #000000;
+}
+
 .product-carousel {
     display: flex;
     overflow-x: auto;
     gap: 30px;
-    padding: 20px 50px;
-    background-color: #FFFFFF; /* Solid white to hide the video behind the products */
+    padding: 20px 0;
     scroll-behavior: smooth;
+    flex: 1;
 }
 
-/* Hides the ugly default scrollbar but keeps the scrolling functionality */
+/* Hides the ugly default scrollbar */
 .product-carousel::-webkit-scrollbar {
     display: none;
 }
 
 /* =========================================
-   6. PREMIUM PRODUCT CARDS
+   6. PREMIUM PRODUCT CARDS (3-GRID)
    ========================================= */
 .product-card {
-    min-width: 300px;
+    flex: 0 0 calc(33.333% - 20px);
     display: flex;
     flex-direction: column;
     background: #FFFFFF;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .product-card:hover {
-    transform: translateY(-10px); /* Slight floating effect */
+    transform: translateY(-10px);
+}
+
+.product-card.empty-card {
+    visibility: hidden;
 }
 
 .product-card img {
     width: 100%;
-    height: 350px;
-    object-fit: cover;
-    background-color: #F5F5F5; /* Light gray placeholder box */
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background-color: #F9F9F9;
     margin-bottom: 15px;
+    transition: opacity 0.2s ease;
 }
 
 .product-card h3, .product-card p {
@@ -152,5 +202,82 @@ body {
 }
 
 .add-to-cart-btn:hover {
+    background-color: #333333;
+}
+
+/* =========================================
+   8. CART DROPDOWN UI
+   ========================================= */
+.cart-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 30px;
+}
+
+.cart-icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    color: #000000;
+    transition: transform 0.2s ease;
+    vertical-align: middle;
+}
+
+.cart-icon:hover {
+    transform: scale(1.1);
+}
+
+.cart-dropdown {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 320px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #EEEEEE;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 200;
+
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(0);
+}
+
+.cart-dropdown.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.cart-header {
+    font-family: 'Druk', 'Anton', sans-serif;
+    font-size: 18px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 10px;
+}
+
+.cart-items-placeholder {
+    font-size: 14px;
+    color: #777777;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.checkout-btn {
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.checkout-btn:hover {
     background-color: #333333;
 }
