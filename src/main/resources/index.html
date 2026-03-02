@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High-End Athleisure</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">GRISTINE.</div>
+    <div class="nav-links">
+        <a href="#tops">Tops</a>
+        <a href="#bottoms">Bottoms</a>
+        <a href="#shoes">Shoes</a>
+    </div>
+</nav>
+
+<header class="hero-section">
+    <video autoplay loop muted playsinline class="hero-video">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    </video>
+</header>
+
+<main class="content-wrapper">
+
+    <section id="tops" class="category-section">
+        <h1 class="masked-text">TOPS</h1>
+
+        <div class="product-carousel">
+            <div class="product-card">
+                <img src="placeholder-top.jpg" alt="Top">
+                <h3>Graphic Hoodie</h3>
+                <p>₹899.00</p>
+                <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('S02')">ADD TO CART</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="bottoms" class="category-section">
+        <h1 class="masked-text">BOTTOMS</h1>
+
+        <div class="product-carousel">
+            <div class="product-card">
+                <img src="placeholder-bottom.jpg" alt="Bottoms">
+                <p>Classic Blue Jeans</p>
+                <p>₹999.00</p>
+                <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('P01')">ADD TO CART</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="shoes" class="category-section">
+        <h1 class="masked-text">SHOES</h1>
+
+        <div class="product-carousel">
+            <div class="product-card">
+                <img src="placeholder-asics.jpg" alt="ASICS">
+                <p>ASICS Gel NYC</p>
+                <p>₹999.00</p>
+                <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('F01')">ADD TO CART</button>
+            </div>
+            <div class="product-card">
+                <img src="placeholder-adidas.jpg" alt="Adidas">
+                <p>Adidas BW Army</p>
+                <p>₹899.00</p>
+                <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('F02')">ADD TO CART</button>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>
