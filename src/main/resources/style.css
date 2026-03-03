@@ -3,14 +3,12 @@
    ========================================= */
 @font-face {
     font-family: 'Druk';
-    /* Make sure this file name matches your Druk file! */
     src: url('Druk-Condensed.ttf') format('truetype');
     font-weight: 900;
 }
 
 @font-face {
     font-family: 'Monument Extended';
-    /* Make sure this file name matches your Monument Extended file! */
     src: url('MonumentExtended-Black.ttf') format('truetype');
     font-weight: 900;
 }
@@ -38,6 +36,10 @@ body {
     height: 100vh;
     object-fit: cover;
     z-index: -1;
+    /* JAVAFX FIX: Force GPU Hardware Acceleration */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 /* =========================================
@@ -57,8 +59,8 @@ body {
 }
 
 .logo {
-    font-family: 'Monument Extended', sans-serif; /* APPLIED MONUMENT EXTENDED HERE */
-    font-size: 26px; /* Slightly smaller because Monument is extremely wide */
+    font-family: 'Monument Extended', sans-serif;
+    font-size: 26px;
     font-weight: 900;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -79,7 +81,7 @@ body {
 }
 
 /* =========================================
-   4. SCROLL-JACKING & VIDEO TEXT MASK
+   4. SCROLL-JACKING & SVG VIDEO MASK
    ========================================= */
 .hero-section {
     height: 100vh;
@@ -90,20 +92,15 @@ body {
     padding-bottom: 40px;
 }
 
-/* THE MAGIC TRICK: Video Masking with DRUK */
-.masked-text {
-    font-family: 'Druk', 'Anton', sans-serif;
-    font-size: 18vw;
-    font-weight: 900;
-    text-align: center;
-    text-transform: uppercase;
-    line-height: 1;
+/* JAVAFX FIX: The SVG Mask Container */
+.svg-mask-container {
+    width: 100%;
     margin: 0;
-    padding: 20px 0;
-
-    background-color: #FFFFFF;
-    color: #000000;
-    mix-blend-mode: screen;
+    padding: 0;
+    background-color: transparent;
+    /* JAVAFX FIX: Force GPU Hardware Acceleration */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 /* =========================================
@@ -141,7 +138,6 @@ body {
     flex: 1;
 }
 
-/* Hides the ugly default scrollbar */
 .product-carousel::-webkit-scrollbar {
     display: none;
 }

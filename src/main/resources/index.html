@@ -35,7 +35,7 @@
 </nav>
 
 <header class="hero-section">
-    <video autoplay loop muted playsinline class="hero-video">
+    <video id="bg-video" autoplay loop muted playsinline class="hero-video">
         <source src="hero-video.mp4" type="video/mp4">
     </video>
 </header>
@@ -43,11 +43,20 @@
 <main class="content-wrapper">
 
     <section id="tops" class="category-section">
-        <h1 class="masked-text">TOPS</h1>
+        <div class="svg-mask-container">
+            <svg viewBox="0 0 1000 250" width="100%" height="100%">
+                <defs>
+                    <mask id="mask-tops">
+                        <rect width="100%" height="100%" fill="white" />
+                        <text x="50%" y="55%" font-family="'Druk', 'Anton', sans-serif" font-size="220" font-weight="900" dominant-baseline="middle" text-anchor="middle" fill="black">TOPS</text>
+                    </mask>
+                </defs>
+                <rect width="100%" height="100%" fill="#FFFFFF" mask="url(#mask-tops)" />
+            </svg>
+        </div>
 
         <div class="carousel-container">
             <button class="carousel-arrow left-arrow" onclick="scrollCarousel('tops-carousel', -1)">&#10094;</button>
-
             <div class="product-carousel" id="tops-carousel">
                 <div class="product-card">
                     <img src="adidaspinktop1.jpeg" data-images='["adidaspinktop1.jpeg", "adidaspinktop2.jpeg", "adidaspinktop3.jpeg"]' alt="Adidas Pink Top" class="primary-img">
@@ -80,17 +89,25 @@
                     <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('T05')">ADD TO CART</button>
                 </div>
             </div>
-
             <button class="carousel-arrow right-arrow" onclick="scrollCarousel('tops-carousel', 1)">&#10095;</button>
         </div>
     </section>
 
     <section id="bottoms" class="category-section">
-        <h1 class="masked-text">BOTTOMS</h1>
+        <div class="svg-mask-container">
+            <svg viewBox="0 0 1000 250" width="100%" height="100%">
+                <defs>
+                    <mask id="mask-bottoms">
+                        <rect width="100%" height="100%" fill="white" />
+                        <text x="50%" y="55%" font-family="'Druk', 'Anton', sans-serif" font-size="220" font-weight="900" dominant-baseline="middle" text-anchor="middle" fill="black">BOTTOMS</text>
+                    </mask>
+                </defs>
+                <rect width="100%" height="100%" fill="#FFFFFF" mask="url(#mask-bottoms)" />
+            </svg>
+        </div>
 
         <div class="carousel-container">
             <button class="carousel-arrow left-arrow" onclick="scrollCarousel('bottoms-carousel', -1)">&#10094;</button>
-
             <div class="product-carousel" id="bottoms-carousel">
                 <div class="product-card">
                     <img src="whitebottom1.jpeg" data-images='["whitebottom1.jpeg", "whitebottom2.jpeg"]' alt="Puma White Pants" class="primary-img">
@@ -123,17 +140,25 @@
                     <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('B05')">ADD TO CART</button>
                 </div>
             </div>
-
             <button class="carousel-arrow right-arrow" onclick="scrollCarousel('bottoms-carousel', 1)">&#10095;</button>
         </div>
     </section>
 
     <section id="shoes" class="category-section">
-        <h1 class="masked-text">SHOES</h1>
+        <div class="svg-mask-container">
+            <svg viewBox="0 0 1000 250" width="100%" height="100%">
+                <defs>
+                    <mask id="mask-shoes">
+                        <rect width="100%" height="100%" fill="white" />
+                        <text x="50%" y="55%" font-family="'Druk', 'Anton', sans-serif" font-size="220" font-weight="900" dominant-baseline="middle" text-anchor="middle" fill="black">SHOES</text>
+                    </mask>
+                </defs>
+                <rect width="100%" height="100%" fill="#FFFFFF" mask="url(#mask-shoes)" />
+            </svg>
+        </div>
 
         <div class="carousel-container">
             <button class="carousel-arrow left-arrow" onclick="scrollCarousel('shoes-carousel', -1)">&#10094;</button>
-
             <div class="product-carousel" id="shoes-carousel">
                 <div class="product-card">
                     <img src="nikeblackshoe1.jpeg" data-images='["nikeblackshoe1.jpeg", "nikeblackshoe2.jpeg", "nikeblackshoe3.jpeg"]' alt="Nike Black Air Max" class="primary-img">
@@ -154,7 +179,6 @@
                     <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('S03')">ADD TO CART</button>
                 </div>
             </div>
-
             <button class="carousel-arrow right-arrow" onclick="scrollCarousel('shoes-carousel', 1)">&#10095;</button>
         </div>
     </section>
@@ -162,23 +186,27 @@
 </main>
 
 <script>
-    // Horizontal Scroll Math
     function scrollCarousel(carouselId, direction) {
         const carousel = document.getElementById(carouselId);
         const cardWidth = carousel.querySelector('.product-card').offsetWidth + 30;
         carousel.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
     }
 
-    // Cart Dropdown Toggle
     function toggleCart() {
         const dropdown = document.getElementById('cart-dropdown');
         dropdown.classList.toggle('hidden');
     }
 
-    // Hover Slideshow Engine
     document.addEventListener("DOMContentLoaded", () => {
-        const images = document.querySelectorAll('.product-card img');
+        const bgVideo = document.getElementById('bg-video');
+        if (bgVideo) {
+            bgVideo.addEventListener('ended', () => {
+                bgVideo.currentTime = 0;
+                bgVideo.play();
+            });
+        }
 
+        const images = document.querySelectorAll('.product-card img');
         images.forEach(img => {
             const imageList = JSON.parse(img.getAttribute('data-images') || '[]');
             let intervalId;
