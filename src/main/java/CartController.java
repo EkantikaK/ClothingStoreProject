@@ -1,13 +1,21 @@
 import io.javalin.http.Context;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CartController {
 
-    // Initialize your existing core classes
-    private InventoryStore inventoryStore = new InventoryStore();
-    private ShoppingCart shoppingCart = new ShoppingCart();
-    private Checkout checkout = new Checkout();
+    private final InventoryStore inventoryStore;
+    private final ShoppingCart shoppingCart;
+    private final Checkout checkout;
 
-    // Data Transfer Objects (DTOs) for Jackson to parse incoming JSON requests
+    public CartController(InventoryStore inventoryStore,
+                          ShoppingCart shoppingCart,
+                          Checkout checkout) {
+        this.inventoryStore = inventoryStore;
+        this.shoppingCart = shoppingCart;
+        this.checkout = checkout;
+    }
+
     public static class AddItemRequest {
         public String itemId;
     }
@@ -16,57 +24,68 @@ public class CartController {
         public String promoCode;
     }
 
-    /**
-     * POST /api/cart/add
-     * Expected JSON Body: { "itemId": "S01" }
-     */
+    // ================= ADD TO CART =================
+
     public void addToCart(Context ctx) {
+
         AddItemRequest request = ctx.bodyAsClass(AddItemRequest.class);
-        String requestedId = request.itemId;
 
-        // Search for the item in the inventory
-        ClothingItem itemToAdd = null;
-        for (ClothingItem item : inventoryStore.getAllItems()) {
-            if (item.getId().equalsIgnoreCase(requestedId)) {
-                itemToAdd = item;
-                break;
-            }
-        }
-
-        if (itemToAdd == null) {
-            ctx.status(404).json("Error: Item code '" + requestedId + "' not found in inventory.");
+        if (request == null || request.itemId == null) {
+            ctx.status(400).json(Map.of("error", "Item ID required"));
             return;
         }
 
-        // Attempt to add the item to the cart
-        boolean isAdded = shoppingCart.addItem(itemToAdd);
-        if (isAdded) {
-            ctx.status(200).json("Success: " + itemToAdd.getName() + " added to the cart.");
-        } else {
-            ctx.status(400).json("Error: " + itemToAdd.getName() + " is currently out of stock.");
+        ClothingItem item = inventoryStore.getItemById(request.itemId);
+
+        if (item == null) {
+            ctx.status(404).json(Map.of("error", "Item not found"));
+            return;
         }
+
+        boolean added = shoppingCart.addItem(item);
+
+        if (!added) {
+            ctx.status(400).json(Map.of("error", "Out of stock"));
+            return;
+        }
+
+        ctx.json(Map.of("message", "Item added successfully"));
     }
 
-    /**
-     * POST /api/checkout
-     * Expected JSON Body (Optional): { "promoCode": "SEMESTER10" }
-     */
+    // ================= GET CART =================
+
+    public void getCart(Context ctx) {
+
+        var cartItems = shoppingCart.getItems()
+                .stream()
+                .map(ci -> Map.of(
+                        "id", ci.getItem().getId(),
+                        "name", ci.getItem().getName(),
+                        "price", ci.getItem().getPrice(),
+                        "quantity", ci.getQuantity(),
+                        "subtotal", ci.getSubtotal()
+                ))
+                .collect(Collectors.toList());
+
+        ctx.json(Map.of(
+                "items", cartItems,
+                "total", shoppingCart.getTotal()
+        ));
+    }
+
+    // ================= CHECKOUT =================
+
     public void processCheckout(Context ctx) {
-        CheckoutRequest request = null;
-        try {
-            // Attempt to parse a promo code if the frontend sent one
-            request = ctx.bodyAsClass(CheckoutRequest.class);
-        } catch (Exception e) {
-            // Proceed without promo code if body is empty or invalid
+
+        boolean success = checkout.processCheckout(shoppingCart, "");
+
+        if (!success) {
+            ctx.status(400).json(Map.of("error", "Cart is empty"));
+            return;
         }
 
-        String promo = (request != null) ? request.promoCode : "";
+        shoppingCart.clear();
 
-        boolean isSuccessful = checkout.processCheckout(shoppingCart, promo);
-        if (isSuccessful) {
-            ctx.status(200).json("Success: Checkout complete. Receipt generated locally.");
-        } else {
-            ctx.status(400).json("Error: Checkout failed. The shopping cart is empty.");
-        }
+        ctx.json(Map.of("message", "Checkout successful"));
     }
 }

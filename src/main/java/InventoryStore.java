@@ -10,24 +10,35 @@ public class InventoryStore {
         loadItems();
     }
 
+    public ClothingItem getItemById(String id) {
+        for (ClothingItem item : inventory) {
+            if (item.getId().equalsIgnoreCase(id)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     private void loadItems() {
-        // Shirts
-        inventory.add(new ClothingItem("S01", "Basic White T-Shirt", "Shirts", 499.00, 50));
-        inventory.add(new ClothingItem("S02", "Graphic Hoodie", "Shirts", 899.00, 20));
-        inventory.add(new ClothingItem("S03", "Flannel Button-Up", "Shirts", 699.00, 15));
 
-        // Pants
-        inventory.add(new ClothingItem("P01", "Classic Blue Jeans", "Pants", 999.00, 30));
-        inventory.add(new ClothingItem("P02", "Black Chinos", "Pants", 799.00, 25));
-        inventory.add(new ClothingItem("P03", "Sweatpants", "Pants", 599.00, 40));
+        // ================= TOPS =================
+        inventory.add(new ClothingItem("T01", "Adidas Pro Longsleeve", "Tops", 1299.00, 20));
+        inventory.add(new ClothingItem("T02", "Adidas L.F.C. Jersey", "Tops", 1499.00, 15));
+        inventory.add(new ClothingItem("T03", "Puma Striped Polo", "Tops", 1899.00, 10));
+        inventory.add(new ClothingItem("T04", "Puma Asymmetric Crop", "Tops", 999.00, 25));
+        inventory.add(new ClothingItem("T05", "Puma Track Jacket", "Tops", 2499.00, 12));
 
-        // Shoes
-        inventory.add(new ClothingItem("F01", "Running Sneakers", "Shoes", 999.00, 15));
-        inventory.add(new ClothingItem("F02", "Leather Loafers", "Shoes", 899.00, 10));
+        // ================= BOTTOMS =================
+        inventory.add(new ClothingItem("B01", "Puma Track Pants", "Bottoms", 1999.00, 18));
+        inventory.add(new ClothingItem("B02", "Puma Graphic Shorts", "Bottoms", 1499.00, 22));
+        inventory.add(new ClothingItem("B03", "Puma Motorsport Pants", "Bottoms", 2199.00, 14));
+        inventory.add(new ClothingItem("B04", "Puma Longline Shorts", "Bottoms", 1299.00, 30));
+        inventory.add(new ClothingItem("B05", "Puma Blue Sweats", "Bottoms", 1799.00, 16));
 
-        // Accessories
-        inventory.add(new ClothingItem("A01", "Winter Beanie", "Accessories", 499.00, 35));
-        inventory.add(new ClothingItem("A02", "Leather Belt", "Accessories", 549.00, 20));
+        // ================= SHOES =================
+        inventory.add(new ClothingItem("S01", "Nike Air Max 97", "Shoes", 14999.00, 8));
+        inventory.add(new ClothingItem("S02", "Nike Air Max 90 Denim", "Shoes", 12499.00, 10));
+        inventory.add(new ClothingItem("S03", "Nike Air Max Dn", "Shoes", 13999.00, 6));
     }
 
     public List<ClothingItem> getAllItems() {
@@ -35,20 +46,23 @@ public class InventoryStore {
     }
 
     public List<ClothingItem> filterByCategory(String category) {
-        if (category.equals("All")) {
+
+        if (category.equalsIgnoreCase("All")) {
             return inventory;
         }
 
         List<ClothingItem> filteredList = new ArrayList<>();
+
         for (ClothingItem item : inventory) {
-            if (item.getCategory().equals(category)) {
+            if (item.getCategory().equalsIgnoreCase(category)) {
                 filteredList.add(item);
             }
         }
+
         return filteredList;
     }
 
     public String[] getCategories() {
-        return new String[]{"All", "Shirts", "Pants", "Shoes", "Accessories"};
+        return new String[]{"All", "Tops", "Bottoms", "Shoes"};
     }
 }

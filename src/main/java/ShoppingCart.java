@@ -1,52 +1,43 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ShoppingCart {
 
-    // 1. The Cart's Internal Storage
-    private List<ClothingItem> cartItems;
+    private Map<String, CartItem> items = new LinkedHashMap<>();
 
-    // 2. Constructor
-    public ShoppingCart() {
-        cartItems = new ArrayList<>();
-    }
-
-    // 3. Add Item Logic
     public boolean addItem(ClothingItem item) {
-        if (item.isAvailable()) {
-            cartItems.add(item);
-            return true; // Successfully added
+
+        if (!item.isAvailable()) {
+            return false;
+        }
+
+        CartItem existing = items.get(item.getId());
+
+        if (existing == null) {
+            items.put(item.getId(), new CartItem(item, 1));
         } else {
-            return false; // Failed to add (Out of stock)
+            existing.incrementQuantity();
         }
+
+        item.reduceStock(1);
+        return true;
     }
 
-    // 4. Remove Item Logic
-    public void removeItem(ClothingItem item) {
-        cartItems.remove(item);
+    public Collection<CartItem> getItems() {
+        return items.values();
     }
 
-    // 5. Math Calculation Engine
-    public double calculateTotalCost() {
-        double total = 0.0;
-        for (ClothingItem item : cartItems) {
-            total += item.getPrice();
-        }
-        return total;
+    public double getTotal() {
+        return items.values()
+                .stream()
+                .mapToDouble(CartItem::getSubtotal)
+                .sum();
     }
 
-    // 6. Retrieve Cart Contents (For GUI)
-    public List<ClothingItem> getCartItems() {
-        return cartItems;
+    public boolean isEmpty() {
+        return items.isEmpty();
     }
 
-    // 7. Post-Checkout Cleanup
-    public void clearCart() {
-        cartItems.clear();
-    }
-
-    // 8. Get Item Count (For GUI Cart Icon/Label)
-    public int getItemCount() {
-        return cartItems.size();
+    public void clear() {
+        items.clear();
     }
 }

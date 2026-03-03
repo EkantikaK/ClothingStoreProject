@@ -1,73 +1,54 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Collection;
 
 public class Checkout {
 
     public boolean processCheckout(ShoppingCart cart, String promoCode) {
-        if (cart.getItemCount() == 0) {
-            System.out.println("Cart is empty. Cannot checkout.");
+
+        // If cart is empty, fail checkout
+        if (cart.isEmpty()) {
             return false;
         }
 
-        double subtotal = cart.calculateTotalCost();
-        double discount = applyPromoCode(promoCode, subtotal);
-        double total = subtotal - discount;
+        double subtotal = cart.getTotal();
+        double discount = 0.0;
 
-        for (ClothingItem item : cart.getCartItems()) {
-            item.reduceStock(1);
+        // Simple promo code logic (optional)
+        if (promoCode != null && promoCode.equalsIgnoreCase("TORQ2026")) {
+            discount = subtotal * 0.10; // 10% discount
         }
 
-        generateReceipt(cart.getCartItems(), subtotal, discount, total);
-        cart.clearCart();
+        double total = subtotal - discount;
+
+        // Generate receipt in console
+        generateReceipt(cart.getItems(), subtotal, discount, total);
+
+        // Clear cart after successful checkout
+        cart.clear();
+
         return true;
     }
 
-    private double applyPromoCode(String promoCode, double subtotal) {
-        if (promoCode != null && promoCode.equalsIgnoreCase("SEMESTER10")) {
-            return subtotal * 0.10;
+    // ================= RECEIPT GENERATION =================
+
+    private void generateReceipt(Collection<CartItem> items,
+                                 double subtotal,
+                                 double discount,
+                                 double total) {
+
+        System.out.println("\n=========== TORQ RECEIPT ===========");
+
+        for (CartItem cartItem : items) {
+            System.out.println(
+                    cartItem.getItem().getName() +
+                            "  x" + cartItem.getQuantity() +
+                            "  = ₹" + String.format("%.2f", cartItem.getSubtotal())
+            );
         }
-        return 0.0;
-    }
 
-    private void generateReceipt(List<ClothingItem> items, double subtotal, double discount, double total) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("receipt.txt"))) {
-
-            writer.println("====================================");
-            writer.println("        JAVA CLOTHING STORE         ");
-            writer.println("====================================");
-
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            writer.println("Date: " + dtf.format(now));
-            writer.println("------------------------------------");
-
-            for (ClothingItem item : items) {
-                // Updated to ₹
-                writer.println(item.getName() + " - ₹" + String.format("%.2f", item.getPrice()));
-            }
-
-            writer.println("------------------------------------");
-            // Updated to ₹
-            writer.println("Subtotal: ₹" + String.format("%.2f", subtotal));
-
-            if (discount > 0) {
-                // Updated to ₹
-                writer.println("Discount (SEMESTER10): -₹" + String.format("%.2f", discount));
-            }
-
-            // Updated to ₹
-            writer.println("Total: ₹" + String.format("%.2f", total));
-            writer.println("====================================");
-            writer.println("      Thank you for shopping!       ");
-
-            System.out.println("Receipt generated successfully: receipt.txt");
-
-        } catch (IOException e) {
-            System.out.println("Error generating receipt: " + e.getMessage());
-        }
+        System.out.println("-------------------------------------");
+        System.out.println("Subtotal: ₹" + String.format("%.2f", subtotal));
+        System.out.println("Discount: ₹" + String.format("%.2f", discount));
+        System.out.println("Total:    ₹" + String.format("%.2f", total));
+        System.out.println("=====================================\n");
     }
 }
