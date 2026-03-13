@@ -4,11 +4,8 @@ public class ShoppingCart {
 
     private Map<String, CartItem> items = new LinkedHashMap<>();
 
-    public boolean addItem(ClothingItem item) {
-
-        if (!item.isAvailable()) {
-            return false;
-        }
+    // Notice we no longer return a boolean, because adding to cart can't fail due to stock!
+    public void addItem(ClothingItem item) {
 
         CartItem existing = items.get(item.getId());
 
@@ -18,8 +15,7 @@ public class ShoppingCart {
             existing.incrementQuantity();
         }
 
-        item.reduceStock(1);
-        return true;
+        // Removed the item.reduceStock(1) call
     }
 
     public Collection<CartItem> getItems() {

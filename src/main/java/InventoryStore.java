@@ -22,23 +22,24 @@ public class InventoryStore {
     private void loadItems() {
 
         // ================= TOPS =================
-        inventory.add(new ClothingItem("T01", "Adidas Pro Longsleeve", "Tops", 1299.00, 20));
-        inventory.add(new ClothingItem("T02", "Adidas L.F.C. Jersey", "Tops", 1499.00, 15));
-        inventory.add(new ClothingItem("T03", "Puma Striped Polo", "Tops", 1899.00, 10));
-        inventory.add(new ClothingItem("T04", "Puma Asymmetric Crop", "Tops", 999.00, 25));
-        inventory.add(new ClothingItem("T05", "Puma Track Jacket", "Tops", 2499.00, 12));
+        // Notice the stock numbers at the end have been removed
+        inventory.add(new ClothingItem("T01", "Adidas Pro Longsleeve", "Tops", 1299.00));
+        inventory.add(new ClothingItem("T02", "Adidas L.F.C. Jersey", "Tops", 1499.00));
+        inventory.add(new ClothingItem("T03", "Puma Striped Polo", "Tops", 1899.00));
+        inventory.add(new ClothingItem("T04", "Puma Asymmetric Crop", "Tops", 999.00));
+        inventory.add(new ClothingItem("T05", "Puma Track Jacket", "Tops", 2499.00));
 
         // ================= BOTTOMS =================
-        inventory.add(new ClothingItem("B01", "Puma Track Pants", "Bottoms", 1999.00, 18));
-        inventory.add(new ClothingItem("B02", "Puma Graphic Shorts", "Bottoms", 1499.00, 22));
-        inventory.add(new ClothingItem("B03", "Puma Motorsport Pants", "Bottoms", 2199.00, 14));
-        inventory.add(new ClothingItem("B04", "Puma Longline Shorts", "Bottoms", 1299.00, 30));
-        inventory.add(new ClothingItem("B05", "Puma Blue Sweats", "Bottoms", 1799.00, 16));
+        inventory.add(new ClothingItem("B01", "Puma Track Pants", "Bottoms", 1999.00));
+        inventory.add(new ClothingItem("B02", "Puma Graphic Shorts", "Bottoms", 1499.00));
+        inventory.add(new ClothingItem("B03", "Puma Motorsport Pants", "Bottoms", 2199.00));
+        inventory.add(new ClothingItem("B04", "Puma Longline Shorts", "Bottoms", 1299.00));
+        inventory.add(new ClothingItem("B05", "Puma Blue Sweats", "Bottoms", 1799.00));
 
         // ================= SHOES =================
-        inventory.add(new ClothingItem("S01", "Nike Air Max 97", "Shoes", 14999.00, 8));
-        inventory.add(new ClothingItem("S02", "Nike Air Max 90 Denim", "Shoes", 12499.00, 10));
-        inventory.add(new ClothingItem("S03", "Nike Air Max Dn", "Shoes", 13999.00, 6));
+        inventory.add(new ClothingItem("S01", "Nike Air Max 97", "Shoes", 14999.00));
+        inventory.add(new ClothingItem("S02", "Nike Air Max 90 Denim", "Shoes", 12499.00));
+        inventory.add(new ClothingItem("S03", "Nike Air Max Dn", "Shoes", 13999.00));
     }
 
     public List<ClothingItem> getAllItems() {

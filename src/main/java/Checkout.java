@@ -2,27 +2,20 @@ import java.util.Collection;
 
 public class Checkout {
 
-    public boolean processCheckout(ShoppingCart cart, String promoCode) {
+    // Removed promoCode parameter
+    public boolean processCheckout(ShoppingCart cart) {
 
-        // If cart is empty, fail checkout
         if (cart.isEmpty()) {
             return false;
         }
 
-        double subtotal = cart.getTotal();
-        double discount = 0.0;
+        double total = cart.getTotal();
 
-        // Simple promo code logic (optional)
-        if (promoCode != null && promoCode.equalsIgnoreCase("TORQ2026")) {
-            discount = subtotal * 0.10; // 10% discount
-        }
+        // Removed all discount logic
 
-        double total = subtotal - discount;
+        // Pass only what is needed to the receipt
+        generateReceipt(cart.getItems(), total);
 
-        // Generate receipt in console
-        generateReceipt(cart.getItems(), subtotal, discount, total);
-
-        // Clear cart after successful checkout
         cart.clear();
 
         return true;
@@ -30,10 +23,8 @@ public class Checkout {
 
     // ================= RECEIPT GENERATION =================
 
-    private void generateReceipt(Collection<CartItem> items,
-                                 double subtotal,
-                                 double discount,
-                                 double total) {
+    // Removed subtotal and discount parameters
+    private void generateReceipt(Collection<CartItem> items, double total) {
 
         System.out.println("\n=========== TORQ RECEIPT ===========");
 
@@ -46,8 +37,7 @@ public class Checkout {
         }
 
         System.out.println("-------------------------------------");
-        System.out.println("Subtotal: ₹" + String.format("%.2f", subtotal));
-        System.out.println("Discount: ₹" + String.format("%.2f", discount));
+        // Removed subtotal and discount print lines
         System.out.println("Total:    ₹" + String.format("%.2f", total));
         System.out.println("=====================================\n");
     }

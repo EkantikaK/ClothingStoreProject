@@ -42,12 +42,8 @@ public class CartController {
             return;
         }
 
-        boolean added = shoppingCart.addItem(item);
-
-        if (!added) {
-            ctx.status(400).json(Map.of("error", "Out of stock"));
-            return;
-        }
+        // We simply add the item now! No need to check for a boolean response.
+        shoppingCart.addItem(item);
 
         ctx.json(Map.of("message", "Item added successfully"));
     }
@@ -72,12 +68,12 @@ public class CartController {
                 "total", shoppingCart.getTotal()
         ));
     }
-
-    // ================= CHECKOUT =================
+// ================= CHECKOUT =================
 
     public void processCheckout(Context ctx) {
 
-        boolean success = checkout.processCheckout(shoppingCart, "");
+        // Removed the "" argument
+        boolean success = checkout.processCheckout(shoppingCart);
 
         if (!success) {
             ctx.status(400).json(Map.of("error", "Cart is empty"));
