@@ -17,7 +17,7 @@ public class App {
                 new CartController(inventoryStore, shoppingCart, checkout);
 
         app.post("/api/cart/add", cartController::addToCart);
-        app.get("/api/cart", cartController::getCart);   // ✅ NEW
+        app.get("/api/cart", cartController::getCart);
         app.post("/api/checkout", cartController::processCheckout);
 
         System.out.println("Torq server running at http://localhost:8080");

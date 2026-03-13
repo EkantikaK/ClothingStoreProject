@@ -42,7 +42,6 @@ public class CartController {
             return;
         }
 
-        // We simply add the item now! No need to check for a boolean response.
         shoppingCart.addItem(item);
 
         ctx.json(Map.of("message", "Item added successfully"));

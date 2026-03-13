@@ -22,7 +22,6 @@ public class InventoryStore {
     private void loadItems() {
 
         // ================= TOPS =================
-        // Notice the stock numbers at the end have been removed
         inventory.add(new ClothingItem("T01", "Adidas Pro Longsleeve", "Tops", 1299.00));
         inventory.add(new ClothingItem("T02", "Adidas L.F.C. Jersey", "Tops", 1499.00));
         inventory.add(new ClothingItem("T03", "Puma Striped Polo", "Tops", 1899.00));
