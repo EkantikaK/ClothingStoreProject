@@ -1,6 +1,13 @@
 /* =========================================
-   1. CUSTOM FONTS & GLOBAL RESET
+   1. CUSTOM FONTS, COLORS & GLOBAL RESET
    ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;900&display=swap');
+
+:root {
+    /* Change this hex code to the exact color in your new logo! */
+    --brand-accent: #000000;
+}
+
 @font-face {
     font-family: 'Druk';
     src: url('Druk-Condensed.ttf') format('truetype');
@@ -36,14 +43,13 @@ body {
     height: 100vh;
     object-fit: cover;
     z-index: -1;
-    /* JAVAFX FIX: Force GPU Hardware Acceleration */
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
     will-change: transform;
 }
 
 /* =========================================
-   3. SLEEK NAVIGATION BAR
+   3. SLEEK NAVIGATION BAR & LOGO
    ========================================= */
 .navbar {
     position: fixed;
@@ -59,11 +65,15 @@ body {
 }
 
 .logo {
-    font-family: 'Monument Extended', sans-serif;
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 35px; /* Change this to make the logo larger or smaller */
+    width: auto;
+    object-fit: contain;
+    display: block;
 }
 
 .nav-links {
@@ -92,13 +102,11 @@ body {
     padding-bottom: 40px;
 }
 
-/* JAVAFX FIX: The SVG Mask Container */
 .svg-mask-container {
     width: 100%;
     margin: 0;
     padding: 0;
     background-color: transparent;
-    /* JAVAFX FIX: Force GPU Hardware Acceleration */
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
 }
@@ -126,7 +134,7 @@ body {
 }
 
 .carousel-arrow:hover {
-    color: #000000;
+    color: var(--brand-accent);
 }
 
 .product-carousel {
@@ -198,11 +206,11 @@ body {
 }
 
 .add-to-cart-btn:hover {
-    background-color: #333333;
+    background-color: var(--brand-accent);
 }
 
 /* =========================================
-   8. CART DROPDOWN UI
+   8. CART & INFO DROPDOWN UI
    ========================================= */
 .cart-container {
     position: relative;
@@ -221,6 +229,7 @@ body {
 
 .cart-icon:hover {
     transform: scale(1.1);
+    color: var(--brand-accent);
 }
 
 .cart-dropdown {
@@ -251,7 +260,7 @@ body {
 .cart-header {
     font-family: 'Druk', 'Anton', sans-serif;
     font-size: 18px;
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid var(--brand-accent);
     padding-bottom: 10px;
 }
 
@@ -263,7 +272,7 @@ body {
 }
 
 .checkout-btn {
-    background-color: #000000;
+    background-color: var(--brand-accent);
     color: #FFFFFF;
     border: none;
     padding: 15px;
@@ -271,9 +280,15 @@ body {
     font-weight: bold;
     cursor: pointer;
     width: 100%;
-    transition: background-color 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
 .checkout-btn:hover {
-    background-color: #333333;
+    opacity: 0.8;
+}
+
+/* Info Box Specific Class */
+.info-brand-font {
+    font-family: 'League Spartan', sans-serif;
+    text-transform: uppercase;
 }

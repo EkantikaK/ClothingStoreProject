@@ -5,31 +5,331 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Torq | High-End Athleisure</title>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;900&display=swap');
+
+        @font-face {
+            font-family: 'Druk';
+            src: url('Druk-Condensed.ttf') format('truetype');
+            font-weight: 900;
+        }
+
+        @font-face {
+            font-family: 'Monument Extended';
+            src: url('MonumentExtended-Black.ttf') format('truetype');
+            font-weight: 900;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: transparent;
+            color: #111111;
+        }
+
+        .hero-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 35px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000000;
+            margin-left: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .hero-section {
+            height: 100vh;
+        }
+
+        .category-section {
+            position: relative;
+            padding-bottom: 0px;
+        }
+
+        .svg-mask-container {
+            width: 100%;
+            margin: 0;
+            margin-bottom: -3vw;
+            padding: 0;
+            background-color: transparent;
+            position: relative;
+            z-index: 1;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+
+        .carousel-container {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            padding: 20px 50px 0 50px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: #FFFFFF;
+        }
+
+        .carousel-arrow {
+            background: none;
+            border: none;
+            font-size: 40px;
+            color: #CCCCCC;
+            cursor: pointer;
+            padding: 0 10px;
+            transition: color 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-arrow:hover {
+            color: #000000;
+        }
+
+        .product-carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 30px;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+            flex: 1;
+        }
+
+        .product-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product-card {
+            flex: 0 0 calc(33.333% - 20px);
+            display: flex;
+            flex-direction: column;
+            background: #FFFFFF;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-card.empty-card {
+            visibility: hidden;
+        }
+
+        .product-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            background-color: #F9F9F9;
+            margin-bottom: 15px;
+            transition: opacity 0.2s ease;
+        }
+
+        .product-card h3, .product-card p {
+            margin-bottom: 5px;
+            font-size: 16px;
+            padding: 0 15px;
+        }
+
+        .product-card p:nth-of-type(2) {
+            font-weight: bold;
+            color: #555555;
+            margin-bottom: 20px;
+        }
+
+        .add-to-cart-btn {
+            background-color: #000000;
+            color: #FFFFFF;
+            border: none;
+            padding: 15px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: auto;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #333333;
+        }
+
+        .cart-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cart-icon {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            color: #000000;
+            transition: transform 0.2s ease;
+            vertical-align: middle;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            width: 320px;
+            background-color: #FFFFFF;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #EEEEEE;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 200;
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .cart-dropdown.hidden {
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+
+        .cart-header {
+            font-family: 'Druk', 'Anton', sans-serif;
+            font-size: 18px;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 10px;
+        }
+
+        .cart-items-placeholder {
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .checkout-btn {
+            background-color: #000000;
+            color: #FFFFFF;
+            border: none;
+            padding: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+
+        .checkout-btn:hover {
+            background-color: #333333;
+        }
+
+        .info-brand-font {
+            font-family: 'League Spartan', sans-serif;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
 
 <nav class="navbar">
-    <div class="logo">TORQ.</div>
+    <div class="logo">
+        <img src="logo.png" alt="TORQ Logo" class="logo-img">
+    </div>
+
     <div class="nav-links">
         <a href="#tops">Tops</a>
         <a href="#bottoms">Bottoms</a>
         <a href="#shoes">Shoes</a>
 
-        <div class="cart-container">
-            <svg class="cart-icon" onclick="toggleCart()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
+        <div class="nav-icons" style="display: flex; align-items: center; margin-left: 30px;">
 
-            <div id="cart-dropdown" class="cart-dropdown hidden">
-                <div class="cart-header">YOUR CART</div>
-                <div class="cart-items-placeholder" id="cart-items-container">
-                    <p>Cart is empty</p>
+            <div class="cart-container">
+                <svg class="cart-icon" onclick="toggleCart()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+
+                <div id="cart-dropdown" class="cart-dropdown hidden">
+                    <div class="cart-header">YOUR CART</div>
+
+                    <div class="cart-items-placeholder" id="cart-items-container">
+                        <p>Cart is empty</p>
+                    </div>
+
+                    <button class="checkout-btn" onclick="javaBackend.processWebCheckout('TORQ2026')">CHECKOUT</button>
                 </div>
-                <button class="checkout-btn" onclick="checkoutAPI('TORQ2026')">CHECKOUT</button>
             </div>
+
+            <div class="cart-container" style="margin-left: 20px;">
+                <svg class="cart-icon" onclick="toggleInfo()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+
+                <div id="info-dropdown" class="cart-dropdown hidden" style="width: 280px; text-align: center;">
+                    <div class="cart-header info-brand-font">PROJECT INFO</div>
+                    <div class="cart-items-placeholder" style="padding: 15px 0;">
+                        <p class="info-brand-font" style="font-weight: 900; font-size: 16px; color: #000000; letter-spacing: 1px;">MOHIT LAL</p>
+                        <p class="info-brand-font" style="font-weight: 900; font-size: 16px; color: #000000; letter-spacing: 1px; margin-bottom: 20px;">EKANTIKA KUMARI</p>
+
+                        <a href="https://github.com/EkantikaK/ClothingStoreProject.git"
+                           target="_blank"
+                           style="display: inline-block; background-color: #000000; color: #FFFFFF; font-family: 'League Spartan', sans-serif; font-size: 12px; font-weight: bold; letter-spacing: 2px; text-decoration: none; padding: 12px 24px; border-radius: 2px;">
+                            GITHUB REPO
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </nav>
@@ -62,31 +362,31 @@
                     <img src="adidaspinktop1.jpeg" data-images='["adidaspinktop1.jpeg", "adidaspinktop2.jpeg", "adidaspinktop3.jpeg"]' alt="Adidas Pink Top" class="primary-img">
                     <h3>Adidas Pro Longsleeve</h3>
                     <p>₹1,299.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('T01')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('T01')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
                     <img src="adidaswhitetop1.jpeg" data-images='["adidaswhitetop1.jpeg", "adidaswhitetop2.jpeg", "adidaswhitetop3.jpeg"]' alt="Adidas White Top" class="primary-img">
                     <h3>Adidas L.F.C. Jersey</h3>
                     <p>₹1,499.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('T02')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('T02')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
                     <img src="pumagreentop1.jpeg" data-images='["pumagreentop1.jpeg", "pumagreentop2.jpeg", "pumagreentop3.jpeg"]' alt="Puma Green Polo" class="primary-img">
                     <h3>Puma Striped Polo</h3>
                     <p>₹1,899.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('T03')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('T03')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
                     <img src="pumablacktop1.jpeg" data-images='["pumablacktop1.jpeg", "pumablacktop2.jpeg", "pumablacktop3.jpeg"]' alt="Puma Asymmetric Top" class="primary-img">
                     <h3>Puma Asymmetric Crop</h3>
                     <p>₹999.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('T04')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('T04')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
                     <img src="jackettop1.jpeg" data-images='["jackettop1.jpeg", "jackettop2.jpeg"]' alt="Puma Track Jacket" class="primary-img">
                     <h3>Puma Track Jacket</h3>
                     <p>₹2,499.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('T05')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('T05')">ADD TO CART</button>
                 </div>
             </div>
             <button class="carousel-arrow right-arrow" onclick="scrollCarousel('tops-carousel', 1)">&#10095;</button>
@@ -113,31 +413,31 @@
                     <img src="whitebottom1.jpeg" data-images='["whitebottom1.jpeg", "whitebottom2.jpeg"]' alt="Puma White Pants" class="primary-img">
                     <h3>Puma Track Pants</h3>
                     <p>₹1,999.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('B01')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('B01')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
                     <img src="colorfulbottom1.jpeg" data-images='["colorfulbottom1.jpeg", "colorfulbottom2.jpeg", "colorfulbottom3.jpeg"]' alt="Puma Graphic Shorts" class="primary-img">
                     <h3>Puma Graphic Shorts</h3>
                     <p>₹1,499.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('B02')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('B02')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
-                    <img src="pumabottom1.jpeg" data-images='["pumabottom1.jpeg", "pumabottom2.jpeg", "pumabottom3.jpeg"]' alt="Puma Black Pants" class="primary-img">
+                    <img src="pumabottom1.jpeg" data-images='["pumabottom1.jpeg", "pumabottom2.jpeg", "pumabottom3.jpeg"]' alt="Puma Motorsport Pants" class="primary-img">
                     <h3>Puma Motorsport Pants</h3>
                     <p>₹2,199.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('B03')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('B03')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
                     <img src="shortbottom1.jpeg" data-images='["shortbottom1.jpeg", "shortbottom2.jpeg", "shortbottom3.jpeg"]' alt="Puma Black Shorts" class="primary-img">
                     <h3>Puma Longline Shorts</h3>
                     <p>₹1,299.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('B04')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('B04')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
                     <img src="bluebottom1.jpeg" data-images='["bluebottom1.jpeg", "bluebottom2.jpeg", "bluebottom3.jpeg"]' alt="Puma Blue Sweats" class="primary-img">
                     <h3>Puma Blue Sweats</h3>
                     <p>₹1,799.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('B05')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('B05')">ADD TO CART</button>
                 </div>
             </div>
             <button class="carousel-arrow right-arrow" onclick="scrollCarousel('bottoms-carousel', 1)">&#10095;</button>
@@ -164,19 +464,19 @@
                     <img src="nikeblackshoe1.jpeg" data-images='["nikeblackshoe1.jpeg", "nikeblackshoe2.jpeg", "nikeblackshoe3.jpeg"]' alt="Nike Black Air Max" class="primary-img">
                     <h3>Nike Air Max 97</h3>
                     <p>₹14,999.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('S01')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('S01')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
                     <img src="nikeblueshoe1.jpeg" data-images='["nikeblueshoe1.jpeg", "nikeblueshoe2.jpeg", "nikeblueshoe3.jpeg"]' alt="Nike Blue Air Max" class="primary-img">
                     <h3>Nike Air Max 90 Denim</h3>
                     <p>₹12,499.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('S02')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('S02')">ADD TO CART</button>
                 </div>
                 <div class="product-card">
                     <img src="nikepinkshoe1.jpeg" data-images='["nikepinkshoe1.jpeg", "nikepinkshoe2.jpeg", "nikepinkshoe3.jpeg"]' alt="Nike Pink Air Max" class="primary-img">
                     <h3>Nike Air Max Dn</h3>
                     <p>₹13,999.00</p>
-                    <button class="add-to-cart-btn" onclick="addToCartAPI('S03')">ADD TO CART</button>
+                    <button class="add-to-cart-btn" onclick="javaBackend.addItemToCart('S03')">ADD TO CART</button>
                 </div>
             </div>
             <button class="carousel-arrow right-arrow" onclick="scrollCarousel('shoes-carousel', 1)">&#10095;</button>
@@ -193,97 +493,27 @@
     }
 
     function toggleCart() {
-    const dropdown = document.getElementById('cart-dropdown');
-    dropdown.classList.toggle('hidden');
+        const cartDropdown = document.getElementById('cart-dropdown');
+        const infoDropdown = document.getElementById('info-dropdown');
+        cartDropdown.classList.toggle('hidden');
+        if (!infoDropdown.classList.contains('hidden')) {
+            infoDropdown.classList.add('hidden');
+        }
 
-    // Load cart when opened
-    if (!dropdown.classList.contains('hidden')) {
-        loadCart();
-    }
-}
-
-    function addToCartAPI(itemId) {
-    fetch("/api/cart/add", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ itemId: itemId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message || data.error);
-        loadCart();   // Refresh cart display
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("Something went wrong.");
-    });
-}
-
-    // ✅ Checkout API Call
-    function checkoutAPI(promoCode) {
-        fetch("/api/checkout", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ promoCode: promoCode })
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message || data.error);
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("Checkout failed.");
-        });
+        // Refresh cart contents every time we open the dropdown
+        if (!cartDropdown.classList.contains('hidden')) {
+            window.javaBackend.refreshCartUI();
+        }
     }
 
-    function loadCart() {
-    fetch("/api/cart")
-        .then(res => res.json())
-        .then(data => {
-
-            const container = document.getElementById("cart-items-container");
-            container.innerHTML = "";
-
-            if (!data.items || data.items.length === 0) {
-                container.innerHTML = "<p>Cart is empty</p>";
-                return;
-            }
-
-            data.items.forEach(item => {
-                const row = document.createElement("div");
-                row.style.display = "flex";
-                row.style.justifyContent = "space-between";
-                row.style.padding = "6px 0";
-
-                row.innerHTML = `
-                    <div>${item.name}</div>
-                    <div>x${item.quantity}</div>
-                    <div>₹${item.subtotal.toFixed(2)}</div>
-                `;
-
-                container.appendChild(row);
-            });
-
-            const totalRow = document.createElement("div");
-            totalRow.style.display = "flex";
-            totalRow.style.justifyContent = "space-between";
-            totalRow.style.marginTop = "10px";
-            totalRow.style.paddingTop = "8px";
-            totalRow.style.borderTop = "1px solid #ccc";
-            totalRow.style.fontWeight = "bold";
-
-            totalRow.innerHTML = `
-                <div>Total</div>
-                <div>₹${data.total.toFixed(2)}</div>
-            `;
-
-            container.appendChild(totalRow);
-        });
-}
+    function toggleInfo() {
+        const infoDropdown = document.getElementById('info-dropdown');
+        const cartDropdown = document.getElementById('cart-dropdown');
+        infoDropdown.classList.toggle('hidden');
+        if (!cartDropdown.classList.contains('hidden')) {
+            cartDropdown.classList.add('hidden');
+        }
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
         const bgVideo = document.getElementById('bg-video');
@@ -315,7 +545,108 @@
                 });
             }
         });
+
+        // Fetch cart contents as soon as the page loads
+        window.javaBackend.refreshCartUI();
     });
+
+    // ==========================================
+    // THE UPDATED API CONNECTOR
+    // ==========================================
+    window.javaBackend = {
+
+        addItemToCart: function(itemId) {
+            console.log("Sending item to Java server: " + itemId);
+
+            fetch('http://localhost:8080/api/cart/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ itemId: itemId })
+            })
+            .then(response => response.json()) // Ekantika's endpoint now sends JSON
+            .then(data => {
+                if(data.error) {
+                    alert("Error: " + data.error);
+                } else {
+                    // Success! Now physically draw the new item in the cart
+                    window.javaBackend.refreshCartUI();
+
+                    // Show a quick success message, then open the cart automatically
+                    alert(data.message);
+                    const cartDropdown = document.getElementById('cart-dropdown');
+                    if (cartDropdown.classList.contains('hidden')) {
+                        toggleCart();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error("Server Error:", error);
+                alert("Frontend is working, but cannot reach the Java Backend! Is Ekantika's server running?");
+            });
+        },
+
+        processWebCheckout: function(promoCode) {
+            fetch('http://localhost:8080/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ promoCode: promoCode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.error) {
+                    alert("Error: " + data.error);
+                } else {
+                    alert(data.message);
+                    // Checkout worked, cart is empty, so redraw the empty cart UI!
+                    window.javaBackend.refreshCartUI();
+                }
+            })
+            .catch(error => {
+                alert("Cannot reach the Java Backend to process checkout!");
+            });
+        },
+
+        // This is the magic function that paints the dropdown items!
+        refreshCartUI: function() {
+            fetch('http://localhost:8080/api/cart')
+            .then(response => response.json())
+            .then(data => {
+                const cartContainer = document.getElementById('cart-items-container');
+
+                // If the cart is empty, show the placeholder
+                if (!data.items || data.items.length === 0) {
+                    cartContainer.innerHTML = '<p>Cart is empty</p>';
+                    return;
+                }
+
+                // If items exist, build the HTML for each one
+                let html = '';
+                data.items.forEach(item => {
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">
+                            <div style="text-align: left;">
+                                <p style="font-weight: bold; font-size: 14px; color: #000;">${item.name}</p>
+                                <p style="font-size: 12px; color: #777;">Qty: ${item.quantity}</p>
+                            </div>
+                            <p style="font-weight: bold; font-size: 14px; color: #000;">₹${item.subtotal}</p>
+                        </div>
+                    `;
+                });
+
+                // Add the grand total at the bottom
+                html += `
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                        <span style="font-weight: 900; font-size: 16px; color: #000;">TOTAL:</span>
+                        <span style="font-weight: 900; font-size: 16px; color: #000;">₹${data.total}</span>
+                    </div>
+                `;
+
+                // Inject the newly built HTML directly into the dropdown
+                cartContainer.innerHTML = html;
+            })
+            .catch(error => console.error("Error fetching cart contents:", error));
+        }
+    };
 </script>
 </body>
 </html>
