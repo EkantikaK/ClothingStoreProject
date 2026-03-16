@@ -1,4 +1,5 @@
 Run: mvn clean compile exec:java (on intellij console terminal)
+
 Open: http://localhost:8080
 
-Do not open index.html directly using file
+Watch the demo video here: https://drive.google.com/drive/folders/1CwSC5_JsZeSiKb9tLgHHVKFzB7rqqTaj?usp=sharing
